@@ -10,7 +10,7 @@ module.exports = class NoEmoteColon extends Plugin {
     const guildsStore = await getModule([ 'getSortedGuilds' ]);
 
     inject('noEmoteColon-msg', messages, 'sendMessage', (args) => {
-      const emotes = guildsStore.getSortedGuilds().map(g => g.guild).map(g => emojiStore.getGuildEmoji(g.id)).flat();
+      const emotes = Object.values(emojiStore.getGuilds()).flatMap(g => g.emojis);
       args[1].content = args[1].content.split(' ').map(word => {
         const emote = emotes.find(e => e.name === word);
         if (emote) {
